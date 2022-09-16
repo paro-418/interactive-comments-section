@@ -1,9 +1,9 @@
-import UserContainer from "../components/CommentHolder/CommentHolder";
-
+import classes from "./UI.module.css";
+import CommentHolder from "../components/CommentHolder/CommentHolder";
 const UI = () => {
   return (
-    <main>
-      <UserContainer />
+    <main className={classes.main}>
+      <CommentHolder />
     </main>
   );
 };

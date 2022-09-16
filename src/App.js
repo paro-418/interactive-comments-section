@@ -1,8 +1,12 @@
 import "./App.css";
 import UI from "./UI/UI";
-
+import { DataContextProvider } from "./context/data-context";
 function App() {
-  return <UI/>
+  return (
+    <DataContextProvider>
+      <UI />
+    </DataContextProvider>
+  );
 }
 
 export default App;
