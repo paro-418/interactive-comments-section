@@ -1,7 +1,8 @@
 import "./App.css";
+import UI from "./UI/UI";
 
 function App() {
-  return <div className="App">hello</div>;
+  return <UI/>
 }
 
 export default App;
