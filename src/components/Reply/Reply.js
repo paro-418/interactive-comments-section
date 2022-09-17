@@ -1,15 +1,31 @@
 import Button from "../Button/Button";
-// import UserInfos from "../UserInfos/UserInfos";
-// import addIcon from "./../../images/icon-plus.svg";
-// import minusIcon from "./../../images/icon-minus.svg";
-import juliusomo from "./../../images/avatars/image-juliusomo.png";
+import Textarea from "react-textarea-autosize";
+import { useRef } from "react";
 
 const Reply = (props) => {
+  const replyRef = useRef("");
+  const replyHandler = (event) => {
+    event.preventDefault();
+
+    const reply = replyRef.current.value;
+    console.log(reply);
+    replyRef.current.value = "";
+
+    // toggling reply form 
+    props.replyToggleHandler();
+  };
+
   return (
-    <form>
-      <img src={juliusomo} />
-      <input type="textarea" col="10" row="5" />
-      <Button>Reply</Button>
+    <form onSubmit={replyHandler}>
+      <img src={"./assets/images/avatars/image-juliusomo.png"} />
+      <Textarea
+        ref={replyRef}
+        type="textarea"
+        col="10"
+        row="5"
+        defaultValue={replyRef.current.value}
+      />
+      <Button type="submit">Reply</Button>
     </form>
   );
 };

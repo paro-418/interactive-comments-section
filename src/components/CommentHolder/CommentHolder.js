@@ -1,12 +1,13 @@
 import Comment from "../Comment/Comment";
-import { useContext } from "react";
-import DataContext from "../../context/data-context";
 
-const CommentHolder = () => {
-  const conCtx = useContext(DataContext);
+const CommentHolder = ({ comObj }) => {
   return (
-    <section>
-      {conCtx.commentArray.map((cmtObj) => (
+    <section id={comObj.id} className={comObj.user.username}>
+      {/* rendering actual comment  */}
+      <Comment comment={comObj} />
+
+      {/* rendering REPLIES on rendered comment */}
+      {comObj.replies.map((cmtObj) => (
         <Comment key={cmtObj.id} comment={cmtObj} />
       ))}
     </section>

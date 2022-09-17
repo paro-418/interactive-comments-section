@@ -3,8 +3,6 @@ import Button from "../Button/Button";
 import Reply from "../Reply/Reply";
 import UpdateComment from "../UpdateComment/UpdateComment";
 import UserInfos from "../UserInfos/UserInfos";
-import plus from "./../../images/icon-plus.svg";
-import minus from "./../../images/icon-minus.svg";
 
 const Comment = (props) => {
   const [updateOrNot, setUpdateOrNot] = useState(false);
@@ -17,19 +15,19 @@ const Comment = (props) => {
     createdAt,
     user: { image, username },
     content,
-    replies,
+    replyingTo,
   } = props.comment;
 
   return (
-    <article>
-      <section>
+    <section>
+      <article>
         <div>
           <Button>
-            <img src={plus} alt="add button" />
+            <img src={"/assets/images/icon-plus.svg"} alt="add button" />
           </Button>
           <span id="upvote">{score}</span>
           <Button>
-            <img src={minus} alt="subtract button" />
+            <img src={"/assets/images/icon-minus.svg"} alt="subtract button" />
           </Button>
         </div>
         <div>
@@ -40,18 +38,16 @@ const Comment = (props) => {
             images={image}
             username={username}
           />
-          {updateOrNot ? <p>{content}</p> : <UpdateComment />}
+          {updateOrNot ? (
+            <UpdateComment contentToUpdate={content} />
+          ) : (
+            // if replied comment then adding "replyingTo" otherwise not"
+            <p>{replyingTo ? `@${replyingTo} ${content}` : content}</p>
+          )}
         </div>
-      </section>
-      {replyOrNot && <Reply />}
-      <section>
-        {replies
-          ? replies.map((repObj) => (
-              <Comment key={repObj.id} comment={repObj} />
-            ))
-          : ""}
-      </section>
-    </article>
+      </article>
+      {replyOrNot && <Reply replyToggleHandler={replyToggleHandler} />}
+    </section>
   );
 };
 
