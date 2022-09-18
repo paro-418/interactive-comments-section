@@ -1,21 +1,32 @@
 import classes from "./Comment.module.css";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Button from "../Button/Button";
 import Reply from "../Reply/Reply";
 import UpdateComment from "../UpdateComment/UpdateComment";
 import UserInfos from "../UserInfos/UserInfos";
+import DataContext from "../../context/data-context";
 
 const Comment = (props) => {
   const [updateOrNot, setUpdateOrNot] = useState(false);
   const [replyOrNot, setReplyNot] = useState(false);
   const [whomReplying, setWhomReplying] = useState("");
+  const comCtx = useContext(DataContext);
 
-  const updateToggleHandler = () => setUpdateOrNot((prevState) => !prevState);
+  const updateToggleHandler = () => {
+    console.log("updateHandlercalled");
+    return setUpdateOrNot((prevState) => !prevState);
+  };
+
   const replyToggleHandler = (whomReplying) => {
+    console.log("replyHandlerCalled");
     setWhomReplying(whomReplying);
     return setReplyNot((prevState) => !prevState);
   };
+
+  // console.log(props.comment);
+
   const {
+    id: commentID,
     score,
     createdAt,
     user: { image, username },
@@ -29,6 +40,7 @@ const Comment = (props) => {
         !props.replied && classes.section
       }`}
     >
+      {/* <h1>{commentID}</h1> */}
       <article className={classes.article}>
         <div className={classes.sideBtnHolder}>
           <Button>
@@ -47,12 +59,14 @@ const Comment = (props) => {
             images={image}
             username={username}
             className={props.className}
+            commentID={commentID}
           />
           {updateOrNot ? (
-            <UpdateComment contentToUpdate={`@${replyingTo} ${content}`} />
-          ) : // if replied comment then adding "replyingTo" otherwise not"
-          // <p>{replyingTo ? (<span>@{replyingTo}</span> {content}) : content}</p>
+            <UpdateComment replyingTo={replyingTo} contentToUpdate={content} />
+          ) : // <UpdateComment contentToUpdate={`@${replyingTo} ${content}`} />
+          // if replied comment then adding "replyingTo" otherwise not"
           replyingTo ? (
+            // replyingTo is UNDEFINED if comment is NOT a REPLIED comment
             <p className={classes.content}>
               <span className={classes.replyingTo}>@{replyingTo}</span>{" "}
               {content}

@@ -18,7 +18,7 @@ const Reply = (props) => {
   return (
     <form onSubmit={replyHandler} className={classes.form}>
       <img
-        src={comCtx.accountHolderImage}
+        src={comCtx.accountHolderImage.image.png}
         alt="user profile"
         className={classes.userImg}
       />

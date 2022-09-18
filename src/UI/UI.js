@@ -11,7 +11,7 @@ const UI = () => {
       {/* rendering COMMENTHOLDER for each NEW COMMENT .
       if i have N comments in the array then i'll have N seperate comment container*/}
       {comCtx.commentArray.map((comObj) => (
-        <CommentHolder key={comObj.id} comObj={comObj} />
+        <CommentHolder key={comObj.id} id={comObj.id} className = "commentHolder" comObj={comObj} />
       ))}
 
       <FreshComment />

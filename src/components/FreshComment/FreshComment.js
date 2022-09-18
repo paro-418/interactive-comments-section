@@ -10,13 +10,14 @@ const FreshComment = (props) => {
   const FreshCommentHandler = (event) => {
     event.preventDefault();
     const comment = comRef.current.value;
+    comCtx.addFreshCommentHandler(comment);
     comRef.current.value = "";
   };
 
   return (
     <form onSubmit={FreshCommentHandler} className={classes.form}>
       <img
-        src={comCtx.accountHolderImage}
+        src={comCtx.accountHolderImage.image.png}
         alt="user's profile"
         className={classes.userImg}
       />

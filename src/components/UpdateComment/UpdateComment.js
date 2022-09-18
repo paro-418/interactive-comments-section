@@ -2,8 +2,12 @@ import classes from "./UpdateComment.module.css";
 import { useRef } from "react";
 import Button from "../Button/Button";
 
-const UpdateComment = (props) => {
-  const inputRef = useRef();
+const UpdateComment = ({ replyingTo, contentToUpdate }) => {
+  // preventing adding username if updating FRESHCOMMENT i.e not replied comment
+  const initialComment = replyingTo
+    ? `@${replyingTo} ${contentToUpdate}`
+    : contentToUpdate;
+  const inputRef = useRef(initialComment);
 
   const updateHandler = (event) => {
     event.preventDefault();
@@ -15,7 +19,7 @@ const UpdateComment = (props) => {
       <textarea
         className={classes.textarea}
         ref={inputRef}
-        defaultValue={props.contentToUpdate}
+        defaultValue={inputRef.current}
       />
       <Button className={classes.btn} type="submit">
         update

@@ -4,8 +4,9 @@ import DataContext from "../../context/data-context";
 import { useContext } from "react";
 
 const UserInfos = (props) => {
+  // console.log(props.commentID);
   const comCtx = useContext(DataContext);
-  const commentorImage = `./assets/${props.images.png.slice(2)}`;
+  const commentorImage = props.images.png;
 
   // this delEditRplyBtn variable helping to prevent showing REPLY button on its own comment
   // and allowing DELETE and EDIT button only on account holder's commemnt
@@ -20,6 +21,7 @@ const UserInfos = (props) => {
       <span>{props.createdAt}</span>
       <span className={classes.btnContainer}>
         {delEditRplyBtn && (
+          // EDIT BUTTON
           <Button
             className={classes.btn}
             callFunction={props.updateToggleHandler}
@@ -28,6 +30,7 @@ const UserInfos = (props) => {
           </Button>
         )}
         {delEditRplyBtn && (
+          // DELETE BUTTON
           <Button
             className={`${classes.btn} ${classes.delete}`}
             callFunction={comCtx.deleteCommentHandler}
@@ -37,6 +40,7 @@ const UserInfos = (props) => {
           </Button>
         )}
         {!delEditRplyBtn && (
+          // REPLY BUTTON
           <Button
             callFunction={() => props.replyToggleHandler(props.username)}
             className={classes.btn}

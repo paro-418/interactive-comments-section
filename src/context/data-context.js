@@ -1,13 +1,26 @@
 import React, { createContext, useEffect, useState } from "react";
 import { useContext } from "react";
-import comments from "./../data/data.json";
+import importedComments from "./../data/data.json";
 
 const DataContext = createContext({
   commentArray: [],
-  currentLoggedUserInfo: {},
-  accountHolderImage: "",
+  currentLoggedUserInfo: {
+    image: {
+      png: "",
+      webp: "",
+    },
+    username: "",
+  },
+  accountHolderImage: {
+    image: {
+      png: "",
+      webp: "",
+    },
+  },
   addCommentHanadler() {},
+  addFreshCommentHandler() {},
   deleteCommentHandler() {},
+  updateCommentHandler() {},
 });
 
 export const DataContextProvider = (props) => {
@@ -21,22 +34,46 @@ export const DataContextProvider = (props) => {
   );
 
   useEffect(() => {
-    setAllComments(comments.comments);
-    setCurrentUserInfo(comments.currentUser);
-    setAccountHolderImage(
-      `./assets/${comments.currentUser.image.png.slice(2)}`
-    );
+    setAllComments(importedComments.comments);
+    setCurrentUserInfo(importedComments.currentUser);
+    setAccountHolderImage({
+      image: {
+        png: importedComments.currentUser.image.png,
+        webp: importedComments.currentUser.image.webp,
+      },
+    });
   }, []);
 
   // function to add comment
   const addCommentHanadler = (receivedComment) => {
-    comCtx.commentArray.push(receivedComment);
+    // comCtx.commentArray.push(receivedComment);
+    console.log(receivedComment);
   };
 
+  const addFreshCommentHandler = (receivedComment) => {
+    const cmtObjToPush = {
+      id: Date.now(),
+      content: receivedComment,
+      createdAt: "Just now",
+      score: 0,
+      user: {
+        image: {
+          png: accountHolderImage.image.png,
+          webp: accountHolderImage.image.webp,
+        },
+        username: currentUserInfo.username,
+      },
+      replies: [],
+    };
+
+    setAllComments((prevComments) => [...prevComments, cmtObjToPush]);
+  };
   // function to delete comment
   const deleteCommentHandler = () => {
     console.log("im called");
   };
+
+  const updateCommentHandler = () => {};
   return (
     <DataContext.Provider
       value={{
@@ -45,6 +82,8 @@ export const DataContextProvider = (props) => {
         currentLoggedUserInfo: currentUserInfo,
         accountHolderImage,
         deleteCommentHandler,
+        updateCommentHandler,
+        addFreshCommentHandler,
       }}
     >
       {props.children}
