@@ -18,7 +18,8 @@ const Comment = (props) => {
   };
 
   const replyToggleHandler = (whomReplying) => {
-    console.log("replyHandlerCalled");
+    // console.log(whomReplying);
+    // console.log("replyHandlerCalled");
     setWhomReplying(whomReplying);
     return setReplyNot((prevState) => !prevState);
   };

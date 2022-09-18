@@ -9,9 +9,14 @@ const Reply = (props) => {
 
   const replyHandler = (event) => {
     event.preventDefault();
-    // storing reply and then removing username from comment
+    const parentCommentHolder = event.currentTarget.closest(
+      ".commentHolderIdentifier"
+    );
     const reply = replyRef.current.value.replace(`@${props.replyingTo} `, "");
-    // toggling reply form
+    // guard condition
+    if (reply.trim().length === 0) return;
+    // storing reply and then removing username from comment
+    comCtx.replyHandler(reply,props.replyingTo, parentCommentHolder);
     props.replyToggleHandler();
   };
 

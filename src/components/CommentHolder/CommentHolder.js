@@ -5,7 +5,7 @@ const CommentHolder = ({ comObj }) => {
   return (
     <section
       id={comObj.id}
-      className={`${comObj.user.username} ${classes.section}`}
+      className={`${comObj.user.username} commentHolderIdentifier ${classes.section}`}
     >
       {/* rendering actual comment  */}
       {/*replied props to determine whether rendered COMMENT component is for non-replied comment */}
