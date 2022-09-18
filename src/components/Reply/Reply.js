@@ -1,31 +1,37 @@
+import classes from "./Reply.module.css";
 import Button from "../Button/Button";
-import Textarea from "react-textarea-autosize";
-import { useRef } from "react";
+import { useContext, useRef } from "react";
+import DataContext from "../../context/data-context";
 
 const Reply = (props) => {
-  const replyRef = useRef("");
+  const comCtx = useContext(DataContext);
+  const replyRef = useRef(`@${props.replyingTo} `);
+
   const replyHandler = (event) => {
     event.preventDefault();
-
-    const reply = replyRef.current.value;
-    console.log(reply);
-    replyRef.current.value = "";
-
-    // toggling reply form 
+    // storing reply and then removing username from comment
+    const reply = replyRef.current.value.replace(`@${props.replyingTo} `, "");
+    // toggling reply form
     props.replyToggleHandler();
   };
 
   return (
-    <form onSubmit={replyHandler}>
-      <img src={"./assets/images/avatars/image-juliusomo.png"} />
-      <Textarea
+    <form onSubmit={replyHandler} className={classes.form}>
+      <img
+        src={comCtx.accountHolderImage}
+        alt="user profile"
+        className={classes.userImg}
+      />
+      <textarea
         ref={replyRef}
-        type="textarea"
         col="10"
         row="5"
-        defaultValue={replyRef.current.value}
+        defaultValue={replyRef.current}
+        className={classes.textarea}
       />
-      <Button type="submit">Reply</Button>
+      <Button className={classes.btn} type="submit">
+        Reply
+      </Button>
     </form>
   );
 };

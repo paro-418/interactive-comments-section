@@ -5,6 +5,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-family: "Rubik", sans-serif;
+  background-color: #eaecf1;
 }
 
 code {
@@ -17,4 +19,8 @@ code {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+html {
+  /* font-size: 62.5%; */
 }

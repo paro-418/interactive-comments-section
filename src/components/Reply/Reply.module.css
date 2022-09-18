@@ -1,0 +1,29 @@
+.form {
+  /* border: 3px solid red; */
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.userImg {
+  margin: 0.5rem;
+  width: 5%;
+}
+
+.textarea {
+  width: 87%;
+   line-height: 1.5rem;
+  height: 100% !important;
+  font-family: "Rubik", sans-serif;
+  resize: vertical;
+}
+
+.btn {
+  background-color: #5457b6;
+  color: #fff;
+  letter-spacing: 0.05rem;
+  border-radius: 0.3rem;
+  margin-left: 0.6rem;
+}

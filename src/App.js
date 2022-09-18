@@ -1,4 +1,3 @@
-import "./App.css";
 import UI from "./UI/UI";
 import { DataContextProvider } from "./context/data-context";
 function App() {

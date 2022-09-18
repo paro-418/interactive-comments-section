@@ -1,5 +1,34 @@
+.userInfos {
+  /* border: 3px solid greenyellow; */
+  display: flex;
+  align-items: center;
+}
+
+.userImg {
+  height: 2rem;
+}
+.username {
+  font-weight: bold;
+  margin: 0 1rem 0 0.7rem;
+}
 .youOrNot {
   background-color: #5457b6;
   color: #fff;
-  padding: .5rem;
+  margin: 0 1.5rem 0 0;
+  padding: 0.2rem 1rem;
+  border-radius: 0.2rem;
+}
+
+.btnContainer {
+  margin-left: auto;
+  display: flex;
+  /* border: 3px solid blue; */
+}
+
+.delete {
+  color: #ed6468 !important;
+}
+
+.btn img {
+  margin-right: 0.3rem;
 }

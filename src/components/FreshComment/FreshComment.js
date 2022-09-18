@@ -1,9 +1,11 @@
+import classes from "./FreshComment.module.css";
 import Button from "../Button/Button";
-import Textarea from "react-textarea-autosize";
-import { useRef } from "react";
+import DataContext from "../../context/data-context";
+import { useContext, useRef } from "react";
 
 const FreshComment = (props) => {
   const comRef = useRef("");
+  const comCtx = useContext(DataContext);
 
   const FreshCommentHandler = (event) => {
     event.preventDefault();
@@ -12,16 +14,22 @@ const FreshComment = (props) => {
   };
 
   return (
-    <form onSubmit={FreshCommentHandler}>
-      <img src={"./assets/images/avatars/image-juliusomo.png"} />
-      <Textarea
+    <form onSubmit={FreshCommentHandler} className={classes.form}>
+      <img
+        src={comCtx.accountHolderImage}
+        alt="user's profile"
+        className={classes.userImg}
+      />
+      <textarea
         ref={comRef}
-        type="textarea"
         col="10"
         row="5"
         defaultValue={comRef.current.value}
+        className={classes.textarea}
       />
-      <Button type="submit">Reply</Button>
+      <Button className={classes.btn} type="submit">
+        send
+      </Button>
     </form>
   );
 };

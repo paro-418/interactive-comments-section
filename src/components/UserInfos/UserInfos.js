@@ -4,34 +4,48 @@ import DataContext from "../../context/data-context";
 import { useContext } from "react";
 
 const UserInfos = (props) => {
-  const conCtx = useContext(DataContext);
-  const userImg = `./assets/${props.images.png.slice(2)}`;
+  const comCtx = useContext(DataContext);
+  const commentorImage = `./assets/${props.images.png.slice(2)}`;
 
+  // this delEditRplyBtn variable helping to prevent showing REPLY button on its own comment
+  // and allowing DELETE and EDIT button only on account holder's commemnt
   const delEditRplyBtn =
-    props.username.trim() === conCtx.currentLoggedUserInfo.username.trim();
+    props.username.trim() === comCtx.currentLoggedUserInfo.username.trim();
+
   return (
-    <div>
-      <img src={userImg} alt="user icon" />
-      <span>{props.username}</span>
+    <div className={classes.userInfos}>
+      <img src={commentorImage} alt="user icon" className={classes.userImg} />
+      <span className={classes.username}>{props.username}</span>
       {delEditRplyBtn && <span className={classes.youOrNot}>you</span>}
       <span>{props.createdAt}</span>
-      {delEditRplyBtn && (
-        <Button callFunction={props.updateToggleHandler}>
-          <img src={"./assets/images/icon-edit.svg"} alt="edit icon" /> edit
-        </Button>
-      )}
-      {delEditRplyBtn && (
-        <Button>
-          <img alt="delete icon" src={"./assets/images/icon-delete.svg"} />
-          delete
-        </Button>
-      )}
-      {!delEditRplyBtn && (
-        <Button callFunction={props.replyToggleHandler}>
-          <img alt="reply icon" src={"./assets/images/icon-reply.svg"} />
-          reply
-        </Button>
-      )}
+      <span className={classes.btnContainer}>
+        {delEditRplyBtn && (
+          <Button
+            className={classes.btn}
+            callFunction={props.updateToggleHandler}
+          >
+            <img src={"./assets/images/icon-edit.svg"} alt="edit icon" /> edit
+          </Button>
+        )}
+        {delEditRplyBtn && (
+          <Button
+            className={`${classes.btn} ${classes.delete}`}
+            callFunction={comCtx.deleteCommentHandler}
+          >
+            <img alt="delete icon" src={"./assets/images/icon-delete.svg"} />
+            delete
+          </Button>
+        )}
+        {!delEditRplyBtn && (
+          <Button
+            callFunction={() => props.replyToggleHandler(props.username)}
+            className={classes.btn}
+          >
+            <img alt="reply icon" src={"./assets/images/icon-reply.svg"} />
+            reply
+          </Button>
+        )}
+      </span>
     </div>
   );
 };
