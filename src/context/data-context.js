@@ -2,7 +2,7 @@ import React, { createContext, useEffect, useState } from "react";
 import { useContext } from "react";
 import importedData from "./../data/data.json";
 // storing in localdata first time
-localStorage.setItem("storeComment", JSON.stringify(importedData));
+const DATABASE_NAME = "storedLocalData";
 
 const DataContext = createContext({
   commentArray: [],
@@ -27,21 +27,32 @@ const DataContext = createContext({
 
 export const DataContextProvider = (props) => {
   const comCtx = useContext(DataContext);
+
+  // to store all comments only of logged user
   const [allComments, setAllComments] = useState(comCtx.commentArray);
+
+  // state to store current logged user informations
   const [currentUserInfo, setCurrentUserInfo] = useState(
     comCtx.currentLoggedUserInfo
   );
+
+  // state to hold userimage address
   const [accountHolderImage, setAccountHolderImage] = useState(
     comCtx.accountHolderImage
   );
 
+  // state to trigger loading data each time there is a change in DB
+  const [shouldReload, setShouldReload] = useState(true);
+
+  // saving imported data from .json file to locallyStoredData
   useEffect(() => {
-    // storing data in localstorage
-    localStorage.setItem("storeComment", JSON.stringify(importedData));
+    localStorage.setItem(DATABASE_NAME, JSON.stringify(importedData));
   }, []);
 
   useEffect(() => {
-    const locallyStoredDate = JSON.parse(localStorage.getItem("storeComment"));
+    const locallyStoredDate = JSON.parse(localStorage.getItem(DATABASE_NAME));
+
+    // setting all states
     setAllComments(locallyStoredDate.comments);
     setCurrentUserInfo(locallyStoredDate.currentUser);
     setAccountHolderImage({
@@ -50,11 +61,12 @@ export const DataContextProvider = (props) => {
         webp: locallyStoredDate.currentUser.image.webp,
       },
     });
-  }, []);
+  }, [shouldReload]);
 
+  // puhing reply to the database
   const pushReplyHandler = (replyObject, parentUsername) => {
     // obtaining stored local data
-    const storedLocalData = JSON.parse(localStorage.getItem("storeComment"));
+    const storedLocalData = JSON.parse(localStorage.getItem(DATABASE_NAME));
 
     // finding parent comment holder section where reply to be stored and storing replyin "replies" property
     // storing new resultant "comments" array
@@ -67,12 +79,13 @@ export const DataContextProvider = (props) => {
     // reassigning "comments" property with new array where replies are updated
     storedLocalData.comments = newDataToStore;
     // removing old local storage
-    localStorage.removeItem("storeComment");
+    localStorage.removeItem(DATABASE_NAME);
     // Storing new updated data
-    localStorage.setItem("storeComment", JSON.stringify(storedLocalData));
+    localStorage.setItem(DATABASE_NAME, JSON.stringify(storedLocalData));
+    setShouldReload((prevVal) => !prevVal);
   };
 
-  // function to add comment
+  // function to create reply object
   const replyHandler = (receivedReply, replyingTo, parentCommentHolder) => {
     const replyObject = {
       id: Date.now(),
@@ -82,16 +95,24 @@ export const DataContextProvider = (props) => {
       replyingTo: replyingTo,
       user: {
         image: {
-          png: `./assets/images/avatars/image-${replyingTo}.png`,
-          webp: `./assets/images/avatars/image-${replyingTo}.webp`,
+          png: importedData.currentUser.image.png,
+          webp: importedData.currentUser.image.webp,
         },
-        username: comCtx.currentLoggedUserInfo.username,
+        username: importedData.currentUser.username,
       },
     };
 
     // firstClass name is username itself
     const parentUsername = parentCommentHolder.classList[0].trim();
     pushReplyHandler(replyObject, parentUsername);
+  };
+
+  const pushFreshCommentHandler = (newAllComments) => {
+    const storedLocalData = JSON.parse(localStorage.getItem(DATABASE_NAME));
+    storedLocalData.comments = newAllComments;
+    localStorage.removeItem(DATABASE_NAME);
+    localStorage.setItem(DATABASE_NAME, JSON.stringify(storedLocalData));
+    setShouldReload((prevVal) => !prevVal);
   };
 
   const addFreshCommentHandler = (receivedComment) => {
@@ -110,7 +131,11 @@ export const DataContextProvider = (props) => {
       replies: [],
     };
 
-    setAllComments((prevComments) => [...prevComments, cmtObjToPush]);
+    setAllComments((prevComments) => {
+      const newAllComments = [...prevComments, cmtObjToPush];
+      pushFreshCommentHandler(newAllComments);
+      return newAllComments;
+    });
   };
   // function to delete comment
   const deleteCommentHandler = () => {

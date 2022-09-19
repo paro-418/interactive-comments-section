@@ -4,7 +4,6 @@ import DataContext from "../../context/data-context";
 import { useContext } from "react";
 
 const UserInfos = (props) => {
-  // console.log(props.commentID);
   const comCtx = useContext(DataContext);
   const commentorImage = props.images.png;
 

@@ -1,16 +1,14 @@
 import classes from "./Comment.module.css";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import Button from "../Button/Button";
 import Reply from "../Reply/Reply";
 import UpdateComment from "../UpdateComment/UpdateComment";
 import UserInfos from "../UserInfos/UserInfos";
-import DataContext from "../../context/data-context";
 
 const Comment = (props) => {
   const [updateOrNot, setUpdateOrNot] = useState(false);
   const [replyOrNot, setReplyNot] = useState(false);
   const [whomReplying, setWhomReplying] = useState("");
-  const comCtx = useContext(DataContext);
 
   const updateToggleHandler = () => {
     console.log("updateHandlercalled");
@@ -18,13 +16,9 @@ const Comment = (props) => {
   };
 
   const replyToggleHandler = (whomReplying) => {
-    // console.log(whomReplying);
-    // console.log("replyHandlerCalled");
     setWhomReplying(whomReplying);
     return setReplyNot((prevState) => !prevState);
   };
-
-  // console.log(props.comment);
 
   const {
     id: commentID,
@@ -41,7 +35,6 @@ const Comment = (props) => {
         !props.replied && classes.section
       }`}
     >
-      {/* <h1>{commentID}</h1> */}
       <article className={classes.article}>
         <div className={classes.sideBtnHolder}>
           <Button>
