@@ -12,6 +12,15 @@ const UserInfos = (props) => {
   const delEditRplyBtn =
     props.username.trim() === comCtx.currentLoggedUserInfo.username.trim();
 
+  const commentDeleteHandler = (event) => {
+    const parentContainerClassList =
+      event.currentTarget.parentElement.parentElement.parentElement
+        .parentElement.parentElement.classList[1];
+
+    const isRepliedComment =
+      parentContainerClassList.trim() === "repliedCommentIdentifier".trim();
+    comCtx.deleteCommentHandler(props.commentID, isRepliedComment);
+  };
   return (
     <div className={classes.userInfos}>
       <img src={commentorImage} alt="user icon" className={classes.userImg} />
@@ -32,7 +41,7 @@ const UserInfos = (props) => {
           // DELETE BUTTON
           <Button
             className={`${classes.btn} ${classes.delete}`}
-            callFunction={comCtx.deleteCommentHandler}
+            callFunction={commentDeleteHandler}
           >
             <img alt="delete icon" src={"./assets/images/icon-delete.svg"} />
             delete

@@ -21,12 +21,12 @@ const UpdateComment = ({
     event.preventDefault();
     const updatedComment = inputRef.current.value.replace(`@${replyingTo}`, "");
 
-    const prntCmtCntrClassList =
+    const parentContainerClassList =
       event.currentTarget.parentElement.parentElement.parentElement
         .classList[1];
 
     const isRepliedComment =
-      prntCmtCntrClassList.trim() === "repliedCommentIdentifier";
+      parentContainerClassList.trim() === "repliedCommentIdentifier".trim();
     comCtx.updateCommentHandler(updatedComment, commentID, isRepliedComment);
     updateToggleHandler();
   };

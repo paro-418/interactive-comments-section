@@ -21,7 +21,7 @@ const DataContext = createContext({
   },
   replyHandler(receivedReply, replyingTo, parentCommentHolder) {},
   addFreshCommentHandler(receivedComment) {},
-  deleteCommentHandler() {},
+  deleteCommentHandler(commentID, isRepliedComment) {},
   updateCommentHandler(receivedUpdatedComment, commentId, isRepliedComment) {},
 });
 
@@ -138,8 +138,36 @@ export const DataContextProvider = (props) => {
     });
   };
   // function to delete comment
-  const deleteCommentHandler = () => {
-    console.log("im called");
+  const deleteCommentHandler = (commentID, isRepliedComment) => {
+    const storedLocalData = JSON.parse(localStorage.getItem(DATABASE_NAME));
+    if (isRepliedComment) {
+      // iterating objects in COMMENT property
+      const updatedCommentsAfterDELETE = storedLocalData.comments.map(
+        (comObj) => {
+          // filtering comment object in REPLIES property
+          const updatedCommentsAfterDELETE = comObj.replies.filter(
+            (rplyCmt) => {
+              if (rplyCmt.id !== commentID) return rplyCmt;
+            }
+          );
+          comObj.replies = updatedCommentsAfterDELETE;
+          return comObj;
+        }
+      );
+      storedLocalData.comments = updatedCommentsAfterDELETE;
+    } else {
+      const updatedCommentsAfterDELETE = storedLocalData.comments.filter(
+        (comObj) => {
+          if (comObj.id !== commentID) return comObj;
+        }
+      );
+      storedLocalData.comments = updatedCommentsAfterDELETE;
+    }
+    // removing old DATABASE
+    localStorage.removeItem(DATABASE_NAME);
+    // storing NEW DATABASE
+    localStorage.setItem(DATABASE_NAME, JSON.stringify(storedLocalData));
+    setShouldReload((prevVal) => !prevVal);
   };
 
   const updateCommentHandler = (
@@ -152,17 +180,21 @@ export const DataContextProvider = (props) => {
     // if updated comment belongs to replied comment
     if (isRepliedComment) {
       // iterating each object in COMMENTS property
-      storedLocalData.comments.map((cmtObj) => {
-        // iterating each object inside REPLIES property inside COMMENTS property
-        const updatedRepliesComment = cmtObj.replies.map((rplyCmt) => {
-          if (rplyCmt.id === commentId) {
-            rplyCmt.content = receivedUpdatedComment.trim();
-          }
-          return rplyCmt;
-        });
-        cmtObj.replies = updatedRepliesComment;
-        return cmtObj;
-      });
+      const updatedCommentsAfterUPDATE = storedLocalData.comments.map(
+        (cmtObj) => {
+          // iterating each object inside REPLIES property inside COMMENTS property
+          const updatedRepliesComment = cmtObj.replies.map((rplyCmt) => {
+            if (rplyCmt.id === commentId) {
+              rplyCmt.content = receivedUpdatedComment.trim();
+            }
+            return rplyCmt;
+          });
+          cmtObj.replies = updatedRepliesComment;
+          return cmtObj;
+        }
+      );
+
+      storedLocalData.comments = updatedCommentsAfterUPDATE
     } else {
       // if updated comment belons to fresh comment (not-replied comment)
       const updatedComments = storedLocalData.comments.map((comObj) => {
