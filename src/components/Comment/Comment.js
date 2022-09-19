@@ -11,7 +11,6 @@ const Comment = (props) => {
   const [whomReplying, setWhomReplying] = useState("");
 
   const updateToggleHandler = () => {
-    console.log("updateHandlercalled");
     return setUpdateOrNot((prevState) => !prevState);
   };
 
@@ -35,6 +34,7 @@ const Comment = (props) => {
         !props.replied && classes.section
       }`}
     >
+      <h1>{commentID}</h1>
       <article className={classes.article}>
         <div className={classes.sideBtnHolder}>
           <Button>
@@ -56,17 +56,22 @@ const Comment = (props) => {
             commentID={commentID}
           />
           {updateOrNot ? (
-            <UpdateComment replyingTo={replyingTo} contentToUpdate={content} />
+            <UpdateComment
+              updateToggleHandler={updateToggleHandler}
+              commentID={commentID}
+              replyingTo={replyingTo}
+              contentToUpdate={content}
+            />
           ) : // <UpdateComment contentToUpdate={`@${replyingTo} ${content}`} />
           // if replied comment then adding "replyingTo" otherwise not"
           replyingTo ? (
             // replyingTo is UNDEFINED if comment is NOT a REPLIED comment
             <p className={classes.content}>
               <span className={classes.replyingTo}>@{replyingTo}</span>{" "}
-              {content}
+              {content.trim()}
             </p>
           ) : (
-            <p className={classes.content}>{content}</p>
+            <p className={classes.content}>{content.trim()}</p>
           )}
         </div>
       </article>

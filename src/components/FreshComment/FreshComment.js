@@ -3,13 +3,14 @@ import Button from "../Button/Button";
 import DataContext from "../../context/data-context";
 import { useContext, useRef } from "react";
 
-const FreshComment = (props) => {
+const FreshComment = () => {
   const comRef = useRef("");
   const comCtx = useContext(DataContext);
 
   const FreshCommentHandler = (event) => {
     event.preventDefault();
-    const comment = comRef.current.value;
+    const comment = comRef.current.value.trim();
+    if (comment.length === 0) return;
     comCtx.addFreshCommentHandler(comment);
     comRef.current.value = "";
   };

@@ -19,10 +19,10 @@ const DataContext = createContext({
       webp: "",
     },
   },
-  replyHandler() {},
-  addFreshCommentHandler() {},
+  replyHandler(receivedReply, replyingTo, parentCommentHolder) {},
+  addFreshCommentHandler(receivedComment) {},
   deleteCommentHandler() {},
-  updateCommentHandler() {},
+  updateCommentHandler(receivedUpdatedComment, commentId, isRepliedComment) {},
 });
 
 export const DataContextProvider = (props) => {
@@ -142,7 +142,43 @@ export const DataContextProvider = (props) => {
     console.log("im called");
   };
 
-  const updateCommentHandler = () => {};
+  const updateCommentHandler = (
+    receivedUpdatedComment,
+    commentId,
+    isRepliedComment
+  ) => {
+    const storedLocalData = JSON.parse(localStorage.getItem(DATABASE_NAME));
+
+    // if updated comment belongs to replied comment
+    if (isRepliedComment) {
+      // iterating each object in COMMENTS property
+      storedLocalData.comments.map((cmtObj) => {
+        // iterating each object inside REPLIES property inside COMMENTS property
+        const updatedRepliesComment = cmtObj.replies.map((rplyCmt) => {
+          if (rplyCmt.id === commentId) {
+            rplyCmt.content = receivedUpdatedComment.trim();
+          }
+          return rplyCmt;
+        });
+        cmtObj.replies = updatedRepliesComment;
+        return cmtObj;
+      });
+    } else {
+      // if updated comment belons to fresh comment (not-replied comment)
+      const updatedComments = storedLocalData.comments.map((comObj) => {
+        if (comObj.id === commentId)
+          comObj.content = receivedUpdatedComment.trim();
+        return comObj;
+      });
+      storedLocalData.comments = updatedComments;
+    }
+
+    // removing old DATABASE
+    localStorage.removeItem(DATABASE_NAME);
+    // storing NEW DATABASE
+    localStorage.setItem(DATABASE_NAME, JSON.stringify(storedLocalData));
+    setShouldReload((prevVal) => !prevVal);
+  };
   return (
     <DataContext.Provider
       value={{

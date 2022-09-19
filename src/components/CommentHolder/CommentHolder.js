@@ -18,7 +18,7 @@ const CommentHolder = ({ comObj }) => {
           // replied props to determine whether rendered COMMENT component is for replied comment
           replied={true}
           comment={cmtObj}
-          className={classes.repliedComment}
+          className={`${classes.repliedComment} repliedCommentIdentifier`}
         />
       ))}
     </section>
