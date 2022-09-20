@@ -34,7 +34,6 @@ const Comment = (props) => {
         !props.replied && classes.section
       }`}
     >
-      <h1>{commentID}</h1>
       <article className={classes.article}>
         <div className={classes.sideBtnHolder}>
           <Button>
