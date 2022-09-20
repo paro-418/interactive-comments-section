@@ -57,8 +57,12 @@ export const DataContextProvider = (props) => {
     setCurrentUserInfo(locallyStoredDate.currentUser);
     setAccountHolderImage({
       image: {
-        png: locallyStoredDate.currentUser.image.png,
-        webp: locallyStoredDate.currentUser.image.webp,
+        png:
+          process.env.PUBLIC_URL +
+          locallyStoredDate.currentUser.image.png.slice(1),
+        webp:
+          process.env.PUBLIC_URL +
+          locallyStoredDate.currentUser.image.webp.slice(1),
       },
     });
   }, [shouldReload]);
@@ -194,7 +198,7 @@ export const DataContextProvider = (props) => {
         }
       );
 
-      storedLocalData.comments = updatedCommentsAfterUPDATE
+      storedLocalData.comments = updatedCommentsAfterUPDATE;
     } else {
       // if updated comment belons to fresh comment (not-replied comment)
       const updatedComments = storedLocalData.comments.map((comObj) => {

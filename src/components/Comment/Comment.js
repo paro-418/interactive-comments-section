@@ -37,11 +37,17 @@ const Comment = (props) => {
       <article className={classes.article}>
         <div className={classes.sideBtnHolder}>
           <Button className={classes.sideBtn}>
-            <img src={"/assets/images/icon-plus.svg"} alt="add button" />
+            <img
+              src={process.env.PUBLIC_URL + "/assets/images/icon-plus.svg"}
+              alt="add button"
+            />
           </Button>
           <span className={classes.upvote}>{score}</span>
           <Button className={classes.sideBtn}>
-            <img src={"/assets/images/icon-minus.svg"} alt="subtract button" />
+            <img
+              src={process.env.PUBLIC_URL + "/assets/images/icon-minus.svg"}
+              alt="subtract button"
+            />
           </Button>
         </div>
         <div className={classes.cmpHolder}>

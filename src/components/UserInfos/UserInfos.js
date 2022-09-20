@@ -5,8 +5,7 @@ import { useContext } from "react";
 
 const UserInfos = (props) => {
   const comCtx = useContext(DataContext);
-  const commentorImage = props.images.png;
-
+  const commentorImage = process.env.PUBLIC_URL + props.images.png.slice(1);
   // this delEditRplyBtn variable helping to prevent showing REPLY button on its own comment
   // and allowing DELETE and EDIT button only on account holder's commemnt
   const delEditRplyBtn =
@@ -34,7 +33,11 @@ const UserInfos = (props) => {
             className={classes.btn}
             callFunction={props.updateToggleHandler}
           >
-            <img src={"./assets/images/icon-edit.svg"} alt="edit icon" /> edit
+            <img
+              src={process.env.PUBLIC_URL + "/assets/images/icon-edit.svg"}
+              alt="edit icon"
+            />{" "}
+            edit
           </Button>
         )}
         {delEditRplyBtn && (
@@ -43,7 +46,10 @@ const UserInfos = (props) => {
             className={`${classes.btn} ${classes.delete}`}
             callFunction={commentDeleteHandler}
           >
-            <img alt="delete icon" src={"./assets/images/icon-delete.svg"} />
+            <img
+              src={process.env.PUBLIC_URL + "/assets/images/icon-delete.svg"}
+              alt="delete icon"
+            />
             delete
           </Button>
         )}
@@ -53,7 +59,10 @@ const UserInfos = (props) => {
             callFunction={() => props.replyToggleHandler(props.username)}
             className={classes.btn}
           >
-            <img alt="reply icon" src={"./assets/images/icon-reply.svg"} />
+            <img
+              src={process.env.PUBLIC_URL + "/assets/images/icon-reply.svg"}
+              alt="reply icon"
+            />
             reply
           </Button>
         )}

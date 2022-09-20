@@ -1,6 +1,6 @@
 {
-  "name": "interactive-comments-section-main-react",
-  "homepage": "https://paro-810.github.io/interactive-comments-section-main-react",
+  "name": "interactive-comments-section",
+  "homepage": "https://paro-810.github.io/interactive-comments-section",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
