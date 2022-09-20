@@ -1,15 +1,15 @@
-.section {
-  /* border: 3px solid green; */
-}
-
 .repliedComment {
-  /* border: 5px solid red; */
   width: 90%;
   margin: 0.8rem 0 0.8rem auto;
   padding: 1.1rem;
 
-    background-color: #fff;
+  background-color: #fff;
   border-radius: 0.5rem;
   padding: 1.3rem;
-  /* margin: 0.8rem 0; */
+}
+
+@media only screen and (max-width: 900px) {
+  .repliedComment {
+    width: 100%;
+  }
 }

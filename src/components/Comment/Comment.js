@@ -32,15 +32,15 @@ const Comment = (props) => {
       // if replied rendered then props.className otherwise modular className
       className={` ${props.replied && props.className} ${
         !props.replied && classes.section
-      }`}
+      } ${classes.commonSectionStyle}`}
     >
       <article className={classes.article}>
         <div className={classes.sideBtnHolder}>
-          <Button>
+          <Button className={classes.sideBtn}>
             <img src={"/assets/images/icon-plus.svg"} alt="add button" />
           </Button>
-          <span id="upvote">{score}</span>
-          <Button>
+          <span className={classes.upvote}>{score}</span>
+          <Button className={classes.sideBtn}>
             <img src={"/assets/images/icon-minus.svg"} alt="subtract button" />
           </Button>
         </div>

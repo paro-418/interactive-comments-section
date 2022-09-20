@@ -9,7 +9,6 @@ const UpdateComment = ({
   commentID,
   updateToggleHandler,
 }) => {
-  // console.log(updateToggleHandler);
   const comCtx = useContext(DataContext);
   // preventing adding username if updating FRESHCOMMENT i.e not replied comment
   const initialComment = replyingTo
