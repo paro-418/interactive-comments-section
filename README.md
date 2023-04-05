@@ -1,6 +1,6 @@
 # Frontend Mentor - interactive-comments-section
 
-This is a solution to the [REST Countries API with color theme switcher challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/interactive-comments-section-iG1RugEG9).
+This is a solution to the [Interactive comment section](https://www.frontendmentor.io/challenges/interactive-comments-section-iG1RugEG9).
 
 ## Table of contents
 
